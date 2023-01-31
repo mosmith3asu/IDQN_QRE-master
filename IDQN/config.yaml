@@ -1,0 +1,138 @@
+##################################
+# IDQN Configuration #############
+##################################
+
+algorithm_name  : "IDQN_QRE"
+WORLDS          : [1,2,3,4,5,6,7]
+policy_type     : "Baseline" # Removed CPT for simplicity
+
+
+Training:
+  num_episodes : 200_000      # number of training iterations
+  update_interval: 0          # freq of optim (0: soft update + optim every epi) (0>: num of epi between hard update + optim)
+  report_interval: 100        # num epi between reports
+  test_interval: 50           # num episodes between policy testing
+  test_episodes: 5            # num of trials conducted during policy testing
+  rand_init_episodes: 100_000 # number of epi starting from rand state
+  warmup_samples: 10_000      # number of samples in memory before updating
+  eps_schedule:               # decaying schedule of epsilon
+    START: 1.0                # max epsilon
+    END: 0.1                  # min epsilon
+    DECAY: 10000              # decay rate
+    EXPLORE: 5000             # num epi at max epsilon
+
+
+# specify learning/Q-update params
+Learning:
+  LR    : 0.0005 # learning rate
+  gamma : 0.99  # discount factor
+  tau   : 0.005 # soft update rate
+  batch_size: 128      # optim batch size
+  memory_size: 100_000 # sample memory size
+  update_iterations: 1 # num of policy update optim performed
+
+# Specify learning environment
+Environment:
+  r_catch: 25                 # reward from catching target
+  r_penalty: -3               # reward when getting penalty
+  p_penalty: 0.5              # probability of penalty
+  n_moves: 20                 # total num of moves before terminal
+  grid_sz: 7                  # height and width of world in Q-funciton
+  ToM: 5                      # agent sophistication
+  rationality: 1              # agent Boltzmann rationality
+  prey_rationality: 1         # prey Boltzmann rationality
+  prey_dist_power: 2          # exponential weighting on target decision-making
+  enable_penalty: True        # enables penalties for agents
+  enable_prey_move: True      # disables targent movement (testing)
+  save_rewards_for_end: True  # only give cumulative reward at end of trial
+  enable_rand_init: False     # enable random initial state
+
+  n_jointA: 25  # number of joint actions
+  n_egoA: 5     # number of ego/controllable actions
+  n_agents: 2   # number of intelligent (ToM) agents/preditors
+  n_obs: 6      # [x,y] for both players and prey
+
+# pytorch device specifications (tensor location and dtype) -----
+torch:
+  device : "cpu"      # alternatively GPU/cuda
+  dtype  : "float32"  # default precision
+
+
+########################################################################
+############### IMPORTER FUNCTION ######################################
+########################################################################
+# import yaml
+# import torch
+# from dataclasses import dataclass
+# import IDQN
+#
+# @dataclass
+# class Config:
+#     def __init__(self,path=None,depth=1,**kwargs):
+#         self._depth = depth
+#         self._is_root = True if depth==1 else False
+#         if self._is_root and path==None:
+#             default_config_path = "\\".join(str(__file__).split('\\')[:-1] + ['config.yaml'])
+#             path = default_config_path
+#
+#         if path is not None:
+#             with open(path, 'r') as file:
+#                 kwargs = yaml.safe_load(file)
+#         for key in kwargs.keys():
+#             val = kwargs[key]
+#
+#             # Special Cases -----------------------
+#             if key == 'dtype':
+#                 val = torch.__dict__[val]
+#             # -------------------------------------
+#
+#             self.__dict__[key] =  Config(depth=depth+1,**val) if isinstance(val,dict) else val
+#     def __repr__(self):
+#         res = ''
+#         for key in self.__dict__:
+#             if key[0] != "_":
+#                 tabs = "".join(['\t' for _ in range(self._depth)])
+#                 res+=f'\n{tabs}| {key}: {self.__dict__[key]}'
+#         # Root case -----------------------------------------------------------------------
+#         if self._is_root: res = '\nConfiguration:' + res + '\n'
+#         # ----------------------------------------------------------------------------------
+#         return res
+#
+#     def __getitem__(self, key):
+#         return self.__dict__[key]
+#
+#
+#     def load_dict(self):
+#         res = {}
+#         for key, val in self.__dict__.items():
+#             if key[0]!="_":  res[key] = val
+#         return res
+#     def set_option(self,target_key,target_val):
+#         """
+#         Searches structure for target attribute name
+#             EX:  CFG.set_option('num_episodes',1)
+#             NOT !!! CFG.set_option('Training.num_episodes',1)
+#             :param target_key: attribute name (no header)
+#             :param target_val:
+#             :return: (bool) found target attribute
+#         """
+#         found_target = False
+#         for key in self.__dict__.keys():
+#             attr = self.__dict__[key]
+#             if isinstance(attr,IDQN.Config):
+#                 found_target = attr.set_option(target_key,target_val) # CLASS
+#             elif key==target_key:
+#                 self.__dict__[key] = target_val
+#                 found_target = True
+#             if found_target: break
+#         # Root case -----------------------------------------------------------------------
+#         if self._is_root and not found_target:
+#             logging.warning(f'Config attribute not found - Unable to set {target_key}={target_val}')
+#         # ----------------------------------------------------------------------------------
+#         return found_target
+#
+# CFG = Config()
+
+
+########################################################################
+########################################################################
