@@ -164,6 +164,7 @@ class DQN(nn.Module):
 
             for ibatch in range(n_batch):
                 # Each agen chooses the best controllable action => aJ = a_k X a_-k
+                # for themselves conditioned on partner action
                 aR = torch.argmax(pdAegok[ibatch, iR, :])
                 aH = torch.argmax(pdAegok[ibatch, iH, :])
                 aJ[ibatch] = self.solo2joint[aR, aH] # lookup table

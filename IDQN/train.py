@@ -139,10 +139,11 @@ def run_IDQN(iWorld,**kwargs):
             disp = ''
             disp += f'[{epi_timer.remaining_time(i_episode,num_episodes)}] '
             disp += f'[W{iWorld} {policy_type}] '
-            if not warmup_finished: disp += ' WARMUP\t'
             disp += '{:<20}'.format(f'Epi[{i_episode}/{num_episodes}]')
             disp += "stats: [s/epi:{:<4} ".format(np.round(epi_timer.mean_dur, 2)) + f'eps:{round(epsilon,2)} Memory:{len(memory)} ] \t'
             disp += "test score: {:<35}".format( f'[Σr_k(t):{np.round(test_score, 1)} epi_len:{np.round(test_length, 1)} p(catch):{np.round(test_psucc, 1)}]\t')
+            if not warmup_finished: disp += '\t<IN WARMUP>\t'
+            if env.enable_rand_init : disp += '\t<RAND INIT STATE>\t'
             print(disp)
 
 

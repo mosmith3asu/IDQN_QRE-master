@@ -24,9 +24,11 @@ Training:
 
 # specify learning/Q-update params
 Learning:
-  LR    : 0.0005 # learning rate
+  LR    : 0.0001 # learning rate
   gamma : 0.99  # discount factor
-  tau   : 0.005 # soft update rate
+#  LR: 0.0005 # learning rate
+  #  tau   : 0.005 # soft update rate
+  tau: 0.001 # soft update rate
   batch_size: 128      # optim batch size
   memory_size: 100_000 # sample memory size
   update_iterations: 1 # num of policy update optim performed
@@ -44,7 +46,8 @@ Environment:
   prey_dist_power: 2          # exponential weighting on target decision-making
   enable_penalty: True        # enables penalties for agents
   enable_prey_move: True      # disables targent movement (testing)
-  save_rewards_for_end: True  # only give cumulative reward at end of trial
+#  save_rewards_for_end: True  # only give cumulative reward at end of trial
+  save_rewards_for_end: False  # only give cumulative reward at end of trial
   enable_rand_init: False     # enable random initial state
 
   n_jointA: 25  # number of joint actions

@@ -17,23 +17,23 @@ class PursuitEvastionGame(Env):
         world = WorldDefs.world[iWorld]
         # self.device = device  self.dtype = torch.float32
 
-        self.r_catch = CFG.Environment.r_catch
-        self.r_penalty = CFG.Environment.r_penalty
-        self.p_penalty = CFG.Environment.p_penalty
-        self.n_moves = CFG.Environment.n_moves
-        self.prey_rationality = CFG.Environment.prey_rationality
-        self.prey_dist_power = CFG.Environment.prey_dist_power
-        self.enable_penalty = CFG.Environment.enable_penalty
-        self.enable_prey_move = CFG.Environment.enable_prey_move
-        self.save_rewards_for_end = CFG.Environment.save_rewards_for_end
-        self.enable_rand_init = CFG.Environment.enable_rand_init
-        self.n_jointA = CFG.Environment.n_jointA
-        self.n_egoA = CFG.Environment.n_egoA
-        self.n_agents = CFG.Environment.n_agents
-        self.rationality = CFG.Environment.rationality
-        self.ToM = CFG.Environment.ToM
-        self.n_obs = CFG.Environment.n_obs
-        self.grid_sz = CFG.Environment.grid_sz
+        self.r_catch                = CFG.Environment.r_catch
+        self.r_penalty              = CFG.Environment.r_penalty
+        self.p_penalty              = CFG.Environment.p_penalty
+        self.n_moves                = CFG.Environment.n_moves
+        self.prey_rationality       = CFG.Environment.prey_rationality
+        self.prey_dist_power        = CFG.Environment.prey_dist_power
+        self.enable_penalty         = CFG.Environment.enable_penalty
+        self.enable_prey_move       = CFG.Environment.enable_prey_move
+        self.save_rewards_for_end   = CFG.Environment.save_rewards_for_end
+        self.enable_rand_init       = CFG.Environment.enable_rand_init
+        self.n_jointA       = CFG.Environment.n_jointA
+        self.n_egoA         = CFG.Environment.n_egoA
+        self.n_agents       = CFG.Environment.n_agents
+        self.rationality    = CFG.Environment.rationality
+        self.ToM            = CFG.Environment.ToM
+        self.n_obs          = CFG.Environment.n_obs
+        self.grid_sz        = CFG.Environment.grid_sz
 
 
         # Define constant parameters
@@ -51,10 +51,8 @@ class PursuitEvastionGame(Env):
         # self.n_ego_actions = 5
         # self.n_agents = 2
 
-
-
-        self.tensor_type = {'device':device,'dtype':dtype}
-        self.tensor_type_idx = {'device': device, 'dtype': torch.long}
+        self.tensor_type = {'device':CFG.torch.device,'dtype':CFG.torch.dtype}
+        self.tensor_type_idx = {'device': CFG.torch.device, 'dtype': torch.long}
         self.scale_rcatch = 1.0
         self.scale_penalty = 1.0
 
